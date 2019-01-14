@@ -9,12 +9,14 @@ Hardware:
 ## Setup
 ### Install ArduSnake library
 
+```
 cd lib
 git clone git@github.com:Obijuan/ArduSnake.git
 mv ArduSnake ArduSnake2
 mv ArduSnake2/ArduSnake ArduSnake
 rm -rf ArduSnake2
+```
 
 ### Install RF24 library
 
-git clone git@github.com:nRF24/RF24.git
+`git clone git@github.com:nRF24/RF24.git`
