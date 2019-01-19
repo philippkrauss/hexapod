@@ -1,10 +1,11 @@
 # hexapod
 An arduino based hexapod, see https://www.instructables.com/id/Hexapoduino-tiny-hexapod-3D-printed-Arduino-cont/
 
-Hardware: 
+Hardware, baught all at aliexpress:
 
-- 3x Servo 9g, 1,24 € each at aliexpress
-- Arduino Nano, 1,81 € at aliexpress
+- 3x Servo 9g, 1,24 €
+- Arduino Nano, 1,81 €
+- nrf24l01, 0,69 €
 
 ## Setup
 ### Install ArduSnake library
