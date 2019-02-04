@@ -6,6 +6,7 @@ Oscillator rightLeg;
 Oscillator middleLeg;
 
 RF24 radio(7, 8);
+const uint64_t receiver_address = 0xA8A8E1F0C6LL;
 const byte address[6] = "00001";
 
 typedef struct {
@@ -27,11 +28,18 @@ int cycleCorrection = 0;
 int leftStepAmplitude = 45;
 int rightStepAmplitude = 45;
 
+char ackData[17] = "1234567890123456";
+
 void setup() {
     Serial.begin(9600);
     radio.begin();
-    radio.openReadingPipe(0, address);
+    // radio.openReadingPipe(1, address);
+    radio.openReadingPipe(1, receiver_address);
+    // radio.setPayloadSize(sizeof(JoystickValues));
+    radio.enableDynamicPayloads();
     radio.setPALevel(RF24_PA_MIN);
+    //radio.enableAckPayload();
+    //radio.writeAckPayload(1, &ackData, sizeof(ackData));
     radio.startListening();
 
     joystickValues.x = 0;
@@ -62,8 +70,9 @@ void setup() {
 }
 
 void loop() {
-    if (radio.available()) {
+    while (radio.available()) {
         radio.read(&joystickValues, sizeof(JoystickValues));
+        //radio.writeAckPayload(1, &ackData, sizeof(ackData));
         cycleCorrection = map(joystickValues.y, -512, 512, -1500, 1500);
     }
 
