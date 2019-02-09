@@ -28,18 +28,18 @@ int cycleCorrection = 0;
 int leftStepAmplitude = 45;
 int rightStepAmplitude = 45;
 
-char ackData[17] = "1234567890123456";
+char ackData[33] = "HEXAPOD         LINE2           ";
 
 void setup() {
     Serial.begin(9600);
     radio.begin();
-    // radio.openReadingPipe(1, address);
-    radio.openReadingPipe(1, receiver_address);
-    // radio.setPayloadSize(sizeof(JoystickValues));
+    radio.openReadingPipe(1, address);
+    radio.setAutoAck(true);
+    radio.enableAckPayload();
     radio.enableDynamicPayloads();
     radio.setPALevel(RF24_PA_MIN);
-    //radio.enableAckPayload();
-    //radio.writeAckPayload(1, &ackData, sizeof(ackData));
+    radio.enableAckPayload();
+    radio.writeAckPayload(1, &ackData, sizeof(ackData));
     radio.startListening();
 
     joystickValues.x = 0;
@@ -72,7 +72,7 @@ void setup() {
 void loop() {
     while (radio.available()) {
         radio.read(&joystickValues, sizeof(JoystickValues));
-        //radio.writeAckPayload(1, &ackData, sizeof(ackData));
+        radio.writeAckPayload(1, &ackData, sizeof(ackData));
         cycleCorrection = map(joystickValues.y, -512, 512, -1500, 1500);
     }
 
